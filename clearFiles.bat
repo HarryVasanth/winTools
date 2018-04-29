@@ -11,8 +11,8 @@ rd /s /q %temp%
 mkdir %temp%
 rd /s /q %WINDIR%\temp\
 mkdir %WINDIR%\temp\
-ipconfig /flushdns
 for /f %x in ('wevtutil el') do wevtutil cl "%x"
+ipconfig /flushdns
 echo "All done!"
 pause
 exit
