@@ -1,8 +1,8 @@
 # winTools
 These are collection of useful utility scripts for Windows.
 
-# General
+## General
 This directory contains non-specific scripts.
 
-# Network
+## Network
 This directory contains scripts that are related to network and firewall. 
