@@ -1,33 +1,32 @@
 :: Restart Network Adapters
 :: https://github.com/HarryVasanth/winTools
 
-@echo off
+@echo on
 setlocal ENABLEDELAYEDEXPANSION
 
 :: Check for Admin Rights
-dism >nul 2>&1 || (echo Please run this script as an Administrator. && pause && exit /b 1)
+dism >nul 2>&1 || (echo Please run this script as an Administrator. && pause && goto :eof)
 
 :: User Confirmation
 echo This program will restart your Network Adapters.
 CHOICE /C YN /M "Are you sure? :" 
-IF ERRORLEVEL 2 goto answerNo
-IF ERRORLEVEL 1 GOTO answerYes
-
+if exist %errorlevel% goto answerNo
+if not exist %errorlevel% GOTO answerYes
 
 :: Restart Individual Network Adapters
 :answerYes
-for /f "tokens=3,*" %%i in ('netsh int show interface^|find "Connected"') do (
-	netsh int set interface name="%%j" admin="disabled" >nul 2>&1
-	netsh int set interface name="%%j" admin="enabled" >nul 2>&1
+for /f "delims=" %%i in ('netsh int show interface^|find "Connected"') do (
+	netsh int set interface name="%%i" admin="disabled" >nul 2>&1
+	netsh int set interface name="%%i" admin="enabled" >nul 2>&1
 )
 
 :: Done
 echo "All done!"
 pause
-exit /b 0
+goto :eof
 
 :: Cancel Action
 :answerNo
 echo "Nothing is modified!"
 pause
-exit /b 0
+goto :eof
